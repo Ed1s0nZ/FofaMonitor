@@ -168,7 +168,7 @@ func main() {
 			// 日报
 			dailyReportRobot(false, results, urls)
 			downloadFileRobot(uploadFileRobot(time.Now().Format("2006-01-02") + ".txt"))
-		}, 12, 29)
+		}, 10, 0)//每日10点执行
 		time.Sleep(2 * time.Minute)
 	}
 
