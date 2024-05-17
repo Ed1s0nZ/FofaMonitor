@@ -27,7 +27,7 @@ func init() {
 
 // 写sql
 func sql_insert(fakeWeb FakeWebResults) {
-	r, err := Db.Exec("insert into fake_web (ip,port,domain,country,title,protocol,country_name,region,city,longitude,latitude,as_number,as_organization,host,os,server,icp,jarm,header,banner,cert,base_protocol,cname,hashvalue) value(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", fakeWeb.IP, fakeWeb.Port, fakeWeb.Domain, fakeWeb.Country, fakeWeb.Title, fakeWeb.Protocol, fakeWeb.Country_name, fakeWeb.Region, fakeWeb.City, fakeWeb.Longitude, fakeWeb.Latitude, fakeWeb.As_number, fakeWeb.As_organization, fakeWeb.Host, fakeWeb.Os, fakeWeb.Server, fakeWeb.Icp, fakeWeb.Jarm, fakeWeb.Header, fakeWeb.Banner, fakeWeb.Cert, fakeWeb.Base_protocol, fakeWeb.Cname, fakeWeb.HashValue)
+	r, err := Db.Exec("insert into "+table_name+" (ip,port,domain,country,title,protocol,country_name,region,city,longitude,latitude,as_number,as_organization,host,os,server,icp,jarm,header,banner,cert,base_protocol,cname,hashvalue) value(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", fakeWeb.IP, fakeWeb.Port, fakeWeb.Domain, fakeWeb.Country, fakeWeb.Title, fakeWeb.Protocol, fakeWeb.Country_name, fakeWeb.Region, fakeWeb.City, fakeWeb.Longitude, fakeWeb.Latitude, fakeWeb.As_number, fakeWeb.As_organization, fakeWeb.Host, fakeWeb.Os, fakeWeb.Server, fakeWeb.Icp, fakeWeb.Jarm, fakeWeb.Header, fakeWeb.Banner, fakeWeb.Cert, fakeWeb.Base_protocol, fakeWeb.Cname, fakeWeb.HashValue)
 	if err != nil {
 		fmt.Println("修改失败,err:", err)
 		return
@@ -42,7 +42,7 @@ func sql_insert(fakeWeb FakeWebResults) {
 // 查询是否存在
 func queryRow(fakeWeb FakeWebResults) {
 	var f FakeWebResults
-	sqlStr := "select hashvalue from fake_web where hashvalue=?"
+	sqlStr := "select hashvalue from " + table_name + " where hashvalue=?"
 	err := Db.QueryRow(sqlStr, fakeWeb.HashValue).Scan(&f.HashValue)
 	if err == sql.ErrNoRows {
 		vxRobot(false, fakeWeb.IP, fakeWeb.Port, fakeWeb.Host, fakeWeb.Domain, fakeWeb.Country)
@@ -62,7 +62,7 @@ func writeSql(results []FakeWebResults) {
 
 func selectSqlAliveUrls() []string {
 	var urls []string
-	rows, err := Db.Query("SELECT host FROM fake_web")
+	rows, err := Db.Query("SELECT host FROM " + table_name + "")
 	if err != nil {
 		log.Fatal(err)
 	}
