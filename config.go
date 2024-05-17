@@ -10,4 +10,5 @@ var (
 	i                   = 0                                                          //勿动
 	vxRobotKey string   = "123123123"                                                //企业微信机器key
 	sqlstring  string   = "root:123456@tcp(1.1.1.1:3306)/test"
+	table_name string   = "test" //表名
 )
